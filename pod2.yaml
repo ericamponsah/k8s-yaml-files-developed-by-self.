@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    purpose: my-2nd-pod
+  name: my2nd
+spec:
+  containers:
+  - image: nginx
+    name: my-2nd-pod
+    ports:
+    - containerPort: 8080
+      protocol: TCP

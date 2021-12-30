@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: eric-deployment
+  labels:
+    purpose: k8s-class
+spec:
+  #resource:
+  #strategy:
+  #template:
+  #replicas:
+  #selector:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 0
+  template: 
+    metadata:
+      name: eric-cactus
+      labels:
+        purpose: k8s-class
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx
+        ports:
+        - containerPort: 80
+          protocol: TCP  
+  replicas: 2
+  selector:
+    matchLabels:
+      purpose: k8s-class
