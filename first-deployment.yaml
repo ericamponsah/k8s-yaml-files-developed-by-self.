@@ -5,7 +5,6 @@ metadata:
   labels:
     purpose: k8s-class
 spec:
-  #resource:
   #strategy:
   #template:
   #replicas:
@@ -24,6 +23,8 @@ spec:
       containers:
       - name: nginx-container
         image: nginx
+        #resources:
+	#env:
         ports:
         - containerPort: 80
           protocol: TCP  
