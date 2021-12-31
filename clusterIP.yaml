@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 312-nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: 312-nginx
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: 312-nginx
+    spec:
+      containers:
+      - args:
+        - -c
+        - printf 'Hello from ' > /usr/share/nginx/html/index.html && hostname >> /usr/share/nginx/html/index.html
+          && nginx -g 'daemon off;'
+        command:
+        - /bin/sh
+        image: nginx
+        imagePullPolicy: Always
+        name: my-nginx
+        ports:
+        - containerPort: 80
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    run: 312-nginx
+
