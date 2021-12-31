@@ -1,11 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
-  name: recreate-strategy-deployment
+  name: yaa-deployment
   labels:
     purpose: k8s-class
 spec:
-  #resource:
   #strategy:
   #template:
   #replicas:
@@ -25,6 +24,14 @@ spec:
       containers:
       - name: nginx-container
         image: nginx
+        resources:
+          requests:
+            cpu: 200m
+          limits:
+            cpu: 200m
+        env:
+          - name: GREAT
+            value: /var
         ports:
         - containerPort: 80
           protocol: TCP  
