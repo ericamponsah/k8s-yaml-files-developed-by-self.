@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: first-config
+data:
+  # to store as environment variable:
+  upload_period: "3am"
+  retention_time: "30d"
+  listen_port: "8443"
+
+  # to store as files
+  # needs to be mounted to /etc/config/app.settings
+  app.settings: |
+    {
+      "ui-framework": "vuejs",
+      "ui-background-color": "dark green"
+    }
+  main.settings: |
+    Port 80
+
+    allow-cors true
+    disable-headers false
+    timeout 300
+  setup.json: |
+    {
+      "boostrap":"true",
+      "installer":"apt"
+    }
+

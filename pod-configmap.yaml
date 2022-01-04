@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-demo-pod
+spec:
+  containers:
+    - name: demo
+      image: alpine
+      command: ["sleep", "3600"]
+      env:
+      - name: UPLOADPERIOD
+        valueFrom:
+          configMapKeyRef:
+            name: first-config    # The ConfigMap this value comes from.
+            key: upload_period    # The key to fetch.
+      volumeMounts:
+      - name: myconfigmap-marsel
+        mountPath: "/etc/config"
+      - name: myconfigmap2ref
+        mountPath: "/opt"
+      - name: eric
+        mountPath: "/etc/cluster-configs"
+  volumes:
+    - name: myconfigmap-marsel
+      configMap:
+        name: first-config
+        items:
+        - key: "app.settings"
+          path: "app.settings"
+    - name: myconfigmap2ref
+      configMap:
+        name: first-config
+        items:
+        - key: "main.settings"
+          path: "main.settings"
+    - name: eric
+      configMap:
+        name: first-config
+        items:
+        - key: "setup.json"
+          path: "setup.json"
