@@ -1,0 +1,21 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: mycron-eric
+spec:
+  schedule: "*/2 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: alpine
+            imagePullPolicy: IfNotPresent
+            command: ["/bin/sh"]
+            args: ["-c" , " echo eric && date && sleep 30"]
+          restartPolicy: Never
+      backoffLimit: 4 # how many times it can retry until the job succeeds
+      completions: 6 # how many times the job should complete
+      parallelism: 3  # how many jobs can run in parallel (at the same time)
+      activeDeadlineSeconds: 3500 # timeout for a job to run, if pod doesn't finish in this time - it will be terminated
